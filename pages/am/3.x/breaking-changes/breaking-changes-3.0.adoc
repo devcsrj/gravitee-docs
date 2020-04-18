@@ -1,0 +1,72 @@
+= Breaking changes in 3.0
+:page-sidebar: am_3_x_sidebar
+:page-permalink: am/current/am_breaking_changes_3.0.html
+:page-folder: am/installation-guide
+:page-layout: am
+
+== Default Organization and default Environment
+
+Starting from version 3.0.0, new concepts such as `Organization` and `Environment` have been introduced.
+These concepts are part of our new "Multi-env (Cockipt)" feature which will be launched later this year.
+You will be able to :
+
+- Manage your environments from a single console
+- Associate a Portal to each of your environment
+- Be able to promote your security domains from an environment to an other
+- and so one ...
+
+Environments may be :
+
+- Technical: qual, pre-prod, prod
+- Target-oriented: private portal, partners portal, public portal
+- Business-oriented: marketing portal, financial portal, commercial portal
+
+To prepare this new feature, a `DEFAULT` organization and an `DEFAULT` environment have been created and bring some changes to the AM Management API base URL.
+In order to call the AM Management API, you should now use those URLs :
+
+----
+AM Management API 2.x
+
+  - http(s)://AM_MANAGEMENT_API/management/domains/**
+
+AM Management API 3.x
+
+  - http(s)://AM_MANAGEMENT_API/management/organizations/DEFAULT/environments/DEFAULT/domains/**
+----
+
+NOTE: If you are using the AM Management API directly (not via the Portal) please update your configuration.
+
+NOTE: Gravitee.io Access Management 2.x came with a default link:/am/2.x/am_userguide_admin_domain.html[Admin security domain] to perform all the Gravitee.io AM management tasks.
+This domain has been removed and replaced by a new concept call `Organization`.
+
+== Clients are deprecated
+
+Starting from v3.0.0 `Clients` concept has been replaced by `Applications` concept for several reasons :
+
+- Improve user experience and comprehension
+- Require less knowledge about security protocol (OAuth 2.0 / OIDC)
+- Simplify client management within Access Management
+- Align the “application” vision between API Management & Access Management
+- Apply best security options according to the type of application
+- Seamless integration with Dynamic Client Registration
+
+NOTE: See the new link:/am/current/management-api/index.html[AM v3 OpenAPI descriptor] for more information.
+
+----
+AM Management API 2.x
+
+  - http(s)://AM_MANAGEMENT_API/management/domains/:domainId/clients/**
+
+AM Management API 3.x
+
+  - http(s)://AM_MANAGEMENT_API/management/organization/DEFAULT/environment/DEFAULT/domains/:domainId/applications/**
+----
+
+== Portal ACLs and permissions
+
+Since the first version of Gravitee.io Access Management each administrative users of the portal could do everything with no restriction.
+Gravitee.io AM v3 allows you to manage what we call `Administrative roles` that can be used to grant access to specific areas of resources such as the platform, a security domain or an application.
+
+NOTE: To ensure a seamlessly migration to the v3 each current administrative users will have the `ORGANIZATION_OWNER` role.
+
+NOTE: Read more about roles and permissions thanks to our link:/am/current/am_adminguide_roles_and_permissions.html[Administration Guide].
